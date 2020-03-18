@@ -1,9 +1,14 @@
-var http = require('http')
 var calculator = require('./calculator')
+var express = require('express');
+var app = express();
 
-var server = http.createServer(function (req,res) {
-    res.writeHead(200,{'Content-Type':'text/html'})
-    res.end('Hello World')
+app.get('/', function (req, res) {
+    console.log("Nhan mot GET Request ve Homepage")
+    res.sendFile(__dirname+'/index.html')
 })
-
-server.listen(8081)
+app.get('/calculate',function (req,res) {
+    let a = req.query.a;
+    let b = req.query.b;
+    res.send('Kết quả của bạn là : a + b = '+calculator.Addition(a,b)+', a - b = '+calculator.Subtraction(a,b)+', a * b = '+calculator.Multiplication(a,b)+', a / b = '+calculator.Division(a,b))
+})
+app.listen(8080)
